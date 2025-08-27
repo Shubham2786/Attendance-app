@@ -78,27 +78,94 @@ function App() {
       </nav>
       
       {/* Mobile Side Menu */}
-      <div className={`mobile-menu ${isNavOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-content">
-          <div className="mobile-menu-header">
-            <span className="mobile-brand">▣ ClassConnect</span>
+      <div 
+        className={`mobile-menu ${isNavOpen ? 'open' : ''}`}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: isNavOpen ? 0 : '-100%',
+          width: '80%',
+          maxWidth: '300px',
+          height: '100vh',
+          background: '#1A1A1A',
+          borderRight: '3px solid #E6C200',
+          transition: 'left 0.3s ease',
+          zIndex: 1050,
+          boxShadow: '2px 0 20px rgba(0,0,0,0.8)',
+          overflowY: 'auto'
+        }}
+      >
+        <div 
+          style={{
+            padding: '1rem',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <div 
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingBottom: '1rem',
+              borderBottom: '2px solid #E6C200',
+              marginBottom: '1rem'
+            }}
+          >
+            <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#E6C200' }}>▣ ClassConnect</span>
             <button 
-              className="mobile-btn-close"
               onClick={() => setIsNavOpen(false)}
+              style={{
+                background: '#E6C200',
+                border: '2px solid #E6C200',
+                borderRadius: '50%',
+                fontSize: '1.2rem',
+                color: '#0A0A0A',
+                cursor: 'pointer',
+                padding: 0,
+                width: '35px',
+                height: '35px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold'
+              }}
             >
               ✕
             </button>
           </div>
-          <div className="mobile-menu-items">
+          <div 
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem',
+              paddingTop: '1rem'
+            }}
+          >
             {tabs.map((tab, index) => (
               <button 
                 key={tab.id}
-                className={`mobile-nav-item ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => {
                   setActiveTab(tab.id);
                   setIsNavOpen(false);
                 }}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  background: activeTab === tab.id ? '#E6C200' : '#0A0A0A',
+                  border: '2px solid #E6C200',
+                  borderRadius: '0.75rem',
+                  color: activeTab === tab.id ? '#0A0A0A' : '#E6C200',
+                  textAlign: 'left',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  marginBottom: '0.75rem',
+                  transition: 'all 0.3s ease'
+                }}
               >
                 {tab.label}
               </button>
@@ -108,7 +175,21 @@ function App() {
       </div>
       
       {/* Overlay */}
-      {isNavOpen && <div className="mobile-menu-overlay" onClick={() => setIsNavOpen(false)}></div>}
+      {isNavOpen && (
+        <div 
+          onClick={() => setIsNavOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.7)',
+            zIndex: 1040,
+            backdropFilter: 'blur(2px)'
+          }}
+        ></div>
+      )}
 
       <div className="container">
         <Suspense fallback={<div className="text-center py-5"><div className="spinner-border" role="status"></div></div>}>
