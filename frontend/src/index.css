@@ -1155,18 +1155,20 @@ body.light-theme .calendar-day.bg-light {
 
 /* Mobile Menu Styles */
 .mobile-menu {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 80%;
-  max-width: 300px;
-  height: 100vh;
-  background: var(--bg-secondary);
-  border-right: 1px solid var(--accent-primary);
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1050;
-  box-shadow: 2px 0 20px rgba(0,0,0,0.5);
-  overflow-y: auto;
+  position: fixed !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 80% !important;
+  max-width: 300px !important;
+  height: 100vh !important;
+  background: var(--bg-secondary) !important;
+  border-right: 3px solid var(--accent-primary) !important;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 1050 !important;
+  box-shadow: 2px 0 20px rgba(0,0,0,0.8) !important;
+  overflow-y: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .mobile-menu.open {
@@ -1174,10 +1176,13 @@ body.light-theme .calendar-day.bg-light {
 }
 
 .mobile-menu-content {
-  padding: 1rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1060 !important;
 }
 
 .mobile-menu-header {
@@ -1211,28 +1216,36 @@ body.light-theme .calendar-day.bg-light {
 
 
 .mobile-menu-items {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1060 !important;
+  padding-top: 1rem !important;
 }
 
 .mobile-nav-item {
-  display: block;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 0.75rem;
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  animation: slideInFromLeft 0.3s ease-out;
-  margin-bottom: 0.5rem;
+  display: block !important;
+  width: 100% !important;
+  padding: 1rem 1.25rem !important;
+  background: var(--bg-primary) !important;
+  border: 2px solid var(--accent-primary) !important;
+  border-radius: 0.75rem !important;
+  color: var(--accent-primary) !important;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-align: left !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  animation: slideInFromLeft 0.3s ease-out !important;
+  margin-bottom: 0.75rem !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 1060 !important;
+  position: relative !important;
 }
 
 .mobile-nav-item:hover {
