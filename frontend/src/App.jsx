@@ -56,10 +56,31 @@ function App() {
           <button 
             className="navbar-toggler d-lg-none"
             type="button"
-            onClick={() => setIsNavOpen(!isNavOpen)}
+            onClick={() => {
+              console.log('Hamburger clicked, current state:', isNavOpen);
+              setIsNavOpen(!isNavOpen);
+            }}
             aria-label="Toggle navigation"
+            style={{
+              border: '2px solid #E6C200',
+              padding: '10px 12px',
+              borderRadius: '8px',
+              background: '#E6C200',
+              minWidth: '50px',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
-            <span className="navbar-toggler-icon"></span>
+            <span 
+              style={{
+                backgroundImage: "url(\"data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e\")",
+                width: '24px',
+                height: '24px',
+                display: 'block'
+              }}
+            ></span>
           </button>
           
           <div className="navbar-nav ms-auto d-none d-lg-flex align-items-center">
@@ -83,15 +104,15 @@ function App() {
         style={{
           position: 'fixed',
           top: 0,
-          left: isNavOpen ? 0 : '-100%',
+          right: isNavOpen ? 0 : '-100%',
           width: '80%',
           maxWidth: '300px',
           height: '100vh',
           background: '#1A1A1A',
-          borderRight: '3px solid #E6C200',
-          transition: 'left 0.3s ease',
+          borderLeft: '3px solid #E6C200',
+          transition: 'right 0.3s ease',
           zIndex: 1050,
-          boxShadow: '2px 0 20px rgba(0,0,0,0.8)',
+          boxShadow: '-2px 0 20px rgba(0,0,0,0.8)',
           overflowY: 'auto'
         }}
       >
