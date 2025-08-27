@@ -96,6 +96,7 @@ function HolidayManager() {
       loadHolidays();
     } else if (activeTab === 'semester') {
       loadSemester();
+      loadNonWorkingDays(); // Load non-working days for calculation
     } else if (activeTab === 'attendance') {
       loadSubjects();
       loadAttendance();
@@ -116,8 +117,10 @@ function HolidayManager() {
       loadHolidays();
       showNotification('Holiday added successfully!');
       
-      // Trigger calendar refresh by dispatching a custom event
-      window.dispatchEvent(new CustomEvent('holidayUpdated', { detail: holidayData }));
+      // Trigger calendar refresh
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('holidayUpdated', { detail: holidayData }));
+      }, 200);
     } catch (error) {
       console.error('Error creating holiday:', error);
       showNotification('Error adding holiday: ' + (error.response?.data?.error || error.message), 'error');
@@ -167,7 +170,9 @@ function HolidayManager() {
       setConfirmModal({ isOpen: false, holidayId: null });
       
       // Trigger calendar refresh
-      window.dispatchEvent(new CustomEvent('holidayUpdated', { detail: { deleted: id } }));
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('holidayUpdated', { detail: { deleted: id } }));
+      }, 200);
     } catch (error) {
       console.error('Error deleting holiday:', error);
       showNotification('Error deleting holiday', 'error');
@@ -185,7 +190,8 @@ function HolidayManager() {
       showNotification(`${day.name} marked as non-working day`);
     } catch (error) {
       console.error('Error adding non-working day:', error);
-      showNotification('Error adding non-working day: ' + (error.response?.data?.error || error.message), 'error');
+      const errorMessage = error.response?.data?.error || error.message || 'Unknown error occurred';
+      showNotification(errorMessage, 'error');
     }
   };
 
@@ -238,17 +244,33 @@ function HolidayManager() {
       
       if (isNaN(start.getTime()) || isNaN(end.getTime())) return null;
       
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const weeks = Math.ceil(diffDays / 7);
-      
       const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const nonWorkingDayNumbers = nonWorkingDays.map(nwd => nwd.day_of_week);
+      
+      let totalDays = 0;
+      let workingDays = 0;
+      let currentDate = new Date(start);
+      
+      while (currentDate <= end) {
+        totalDays++;
+        const dayOfWeek = currentDate.getDay();
+        if (!nonWorkingDayNumbers.includes(dayOfWeek)) {
+          workingDays++;
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      
+      const weeks = Math.ceil(totalDays / 7);
+      const workingWeeks = Math.ceil(workingDays / 5); // Assuming 5 working days per week
       
       return {
-        totalDays: diffDays + 1,
+        totalDays,
+        workingDays,
         totalWeeks: weeks,
+        workingWeeks,
         startDay: dayNames[start.getDay()],
-        endDay: dayNames[end.getDay()]
+        endDay: dayNames[end.getDay()],
+        nonWorkingDays: totalDays - workingDays
       };
     } catch {
       return null;
@@ -519,7 +541,9 @@ function HolidayManager() {
                   {semesterDetails && (
                     <div className="alert alert-info">
                       <h6>📅 Semester Overview:</h6>
-                      <p className="mb-1"><strong>Duration:</strong> {semesterDetails.totalDays} days ({semesterDetails.totalWeeks} weeks)</p>
+                      <p className="mb-1"><strong>Total Duration:</strong> {semesterDetails.totalDays} days ({semesterDetails.totalWeeks} weeks)</p>
+                      <p className="mb-1"><strong>Working Days:</strong> {semesterDetails.workingDays} days ({semesterDetails.workingWeeks} weeks)</p>
+                      <p className="mb-1"><strong>Non-Working Days:</strong> {semesterDetails.nonWorkingDays} days</p>
                       <p className="mb-1"><strong>Starts:</strong> {semesterDetails.startDay}</p>
                       <p className="mb-0"><strong>Ends:</strong> {semesterDetails.endDay}</p>
                     </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { attendanceAPI, holidaysAPI, examTimetableAPI, timetableAPI, pastAttendanceAPI } from '../services/api';
+import events from '../data/events.js';
 
 function AttendanceCalendar({ refreshTrigger }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -11,47 +12,22 @@ function AttendanceCalendar({ refreshTrigger }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateDetails, setDateDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [academicEvents] = useState(events);
 
   useEffect(() => {
     loadData();
   }, [refreshTrigger]);
 
   useEffect(() => {
-    // Initial load
     loadData();
     
-    // Reload data when component becomes visible
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        loadData();
-      }
-    };
-    
-    // Also reload when window gains focus
-    const handleFocus = () => {
-      loadData();
-    };
-    
-    // Reload when component mounts or tab changes
-    const handleTabChange = () => {
+    const handleHolidayUpdate = () => {
       setTimeout(() => loadData(), 100);
     };
     
-    // Listen for holiday updates from other components
-    const handleHolidayUpdate = () => {
-      console.log('Holiday updated, refreshing calendar...');
-      loadData();
-    };
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('focus', handleFocus);
-    window.addEventListener('hashchange', handleTabChange);
     window.addEventListener('holidayUpdated', handleHolidayUpdate);
     
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', handleFocus);
-      window.removeEventListener('hashchange', handleTabChange);
       window.removeEventListener('holidayUpdated', handleHolidayUpdate);
     };
   }, []);
@@ -59,7 +35,6 @@ function AttendanceCalendar({ refreshTrigger }) {
   const loadData = async () => {
     try {
       setLoading(true);
-      console.log('Loading calendar data...');
       const [attendanceRes, holidaysRes, examsRes, timetableRes, pastRes] = await Promise.all([
         attendanceAPI.getAll(),
         holidaysAPI.getAll(),
@@ -68,30 +43,14 @@ function AttendanceCalendar({ refreshTrigger }) {
         pastAttendanceAPI.getAll()
       ]);
       
-      // Handle different response structures
-      const attendanceData = Array.isArray(attendanceRes.data) ? attendanceRes.data : (Array.isArray(attendanceRes) ? attendanceRes : []);
-      const holidaysData = Array.isArray(holidaysRes.data) ? holidaysRes.data : (Array.isArray(holidaysRes) ? holidaysRes : []);
-      const examsData = Array.isArray(examsRes.data) ? examsRes.data : (Array.isArray(examsRes) ? examsRes : []);
-      const timetableData = Array.isArray(timetableRes.data) ? timetableRes.data : (Array.isArray(timetableRes) ? timetableRes : []);
-      const pastData = Array.isArray(pastRes.data) ? pastRes.data : (Array.isArray(pastRes) ? pastRes : []);
+      setAttendance(attendanceRes.data?.data || attendanceRes.data || []);
+      setHolidays(holidaysRes.data || []);
+      setExams(examsRes.data || []);
+      setTimetable(timetableRes.data || []);
+      setPastAttendance(pastRes.data || []);
       
-      setAttendance(attendanceData);
-      setHolidays(holidaysData);
-      setExams(examsData);
-      setTimetable(timetableData);
-      setPastAttendance(pastData);
-      
-      console.log('Calendar data loaded:', {
-        attendance: attendanceData.length,
-        holidays: holidaysData.length,
-        exams: examsData.length,
-        timetable: timetableData.length,
-        pastAttendance: pastData.length
-      });
       setLoading(false);
     } catch (error) {
-      console.error('Error loading calendar data:', error);
-      // Set empty arrays on error
       setAttendance([]);
       setHolidays([]);
       setExams([]);
@@ -135,7 +94,7 @@ function AttendanceCalendar({ refreshTrigger }) {
       return { type: 'exam', data: examOnDate };
     }
     
-    // Check if it's a holiday
+    // Check if it's a holiday (from database)
     const holidayOnDate = holidays.find(holiday => {
       const startDate = holiday.start_date;
       const endDate = holiday.end_date || holiday.start_date;
@@ -143,6 +102,20 @@ function AttendanceCalendar({ refreshTrigger }) {
     });
     if (holidayOnDate) {
       return { type: 'holiday', data: holidayOnDate };
+    }
+    
+    // Check academic events
+    const eventOnDate = academicEvents.find(event => {
+      if (event.date) {
+        return event.date === dateStr;
+      }
+      if (event.start && event.end) {
+        return dateStr >= event.start && dateStr <= event.end;
+      }
+      return false;
+    });
+    if (eventOnDate) {
+      return { type: eventOnDate.type, data: eventOnDate };
     }
     
     // Check for past attendance first (priority)
@@ -182,6 +155,7 @@ function AttendanceCalendar({ refreshTrigger }) {
     switch (dateInfo.type) {
       case 'exam': return 'bg-danger text-white';
       case 'holiday': return 'bg-warning text-dark';
+      case 'academic': return 'bg-secondary text-white';
       case 'past_absent': return 'bg-primary text-white';
       case 'past_present': return 'bg-info text-white';
       case 'absent': return 'bg-danger text-white';
@@ -217,15 +191,19 @@ function AttendanceCalendar({ refreshTrigger }) {
             <div className="col-md-8">
               <h6 className="mb-1">📅 Academic Calendar</h6>
               <p className="text-muted mb-0">View attendance patterns and important dates</p>
-              <small className="text-info">📊 Holidays: {holidays.length} | 📚 Exams: {exams.length}</small>
+              <small className="text-info">📊 Holidays: {holidays.length} | 📚 Exams: {exams.length} | 🎓 Events: {academicEvents.length}</small>
             </div>
             <div className="col-md-4 text-end">
               <button 
                 className="btn btn-outline-primary btn-sm me-2"
-                onClick={() => loadData()}
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => loadData(), 50);
+                }}
                 title="Refresh calendar data"
+                disabled={loading}
               >
-                🔄 Refresh
+                {loading ? '⏳' : '🔄'} Refresh
               </button>
               <button 
                 className="btn btn-outline-primary btn-sm"
@@ -322,6 +300,10 @@ function AttendanceCalendar({ refreshTrigger }) {
                   <span>Holiday</span>
                 </div>
                 <div className="legend-item">
+                  <span className="legend-dot" style={{background: 'linear-gradient(135deg, #636e72 0%, #2d3436 100%)'}}></span>
+                  <span>Academic Event</span>
+                </div>
+                <div className="legend-item">
                   <span className="legend-dot" style={{background: 'rgba(255,255,255,0.1)', border: '1px solid var(--border-color)'}}></span>
                   <span>Scheduled</span>
                 </div>
@@ -357,9 +339,19 @@ function AttendanceCalendar({ refreshTrigger }) {
                         <div className="date-details-alert alert alert-warning">
                           <strong>🏖️ Holiday</strong><br/>
                           <small>
-                            {dateDetails.data.name}<br/>
-                            Type: {dateDetails.data.type === 'short' ? '📅 Short Holiday' : '🏖️ Long Holiday'}
+                            {dateDetails.data.name || dateDetails.data.title}<br/>
+                            {dateDetails.data.type && dateDetails.data.type !== 'holiday' ? 
+                              `Type: ${dateDetails.data.type}` : 
+                              `Type: ${dateDetails.data.type === 'short' ? '📅 Short Holiday' : '🏖️ Long Holiday'}`
+                            }
                           </small>
+                        </div>
+                      )}
+                      
+                      {dateDetails.type === 'academic' && (
+                        <div className="date-details-alert alert alert-info">
+                          <strong>🎓 Academic Event</strong><br/>
+                          <small>{dateDetails.data.title}</small>
                         </div>
                       )}
                       

@@ -59,7 +59,7 @@ function Dashboard() {
   return (
     <div>
       <div className="dashboard-header">
-        <h2>📚 Welcome to ClassConnect</h2>
+        <h2>▣ Welcome to ClassConnect</h2>
         <p className="mb-0">Track your attendance and stay on top of your academic goals</p>
       </div>
       
@@ -67,12 +67,12 @@ function Dashboard() {
         <div className="col-lg-7">
           <div className="card">
             <div className="card-header">
-              <h5>🕐 Today's Classes</h5>
+              <h5>△ Today's Classes</h5>
             </div>
             <div className="card-body">
               {todayClasses.length === 0 ? (
                 <div className="text-center py-5">
-                  <h3>🎉</h3>
+                  <h3>●</h3>
                   <p className="text-muted">No classes today! Enjoy your free time.</p>
                 </div>
               ) : (
@@ -115,7 +115,7 @@ function Dashboard() {
               )}
               {todayClasses.length > 0 && todayClasses.every(cls => markedAttendance.has(cls.subject_id)) && (
                 <div className="text-center py-4">
-                  <h4>✅</h4>
+                  <h4>●</h4>
                   <p className="text-muted">All attendance marked for today!</p>
                 </div>
               )}
@@ -126,7 +126,7 @@ function Dashboard() {
         <div className="col-lg-5">
           <div className="card">
             <div className="card-header">
-              <h5>📊 Attendance Overview</h5>
+              <h5>◆ Attendance Overview</h5>
             </div>
             <div className="card-body">
               {stats.length === 0 ? (

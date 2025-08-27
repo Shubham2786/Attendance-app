@@ -695,7 +695,7 @@ function TimetableManager() {
                           <p className="text-muted text-center py-3">🚫 This is a non-working day. No classes scheduled.</p>
                         ) : (
                           renderDayClasses(dayIndex)
-                        )
+                        )}
                       </div>
                     );
                   })}

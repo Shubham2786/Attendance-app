@@ -14,9 +14,24 @@ router.get('/', (req, res) => {
 // Add non-working day
 router.post('/', (req, res) => {
   const { day_of_week, day_name } = req.body;
+  
+  // Validation
+  if (day_of_week === undefined || !day_name) {
+    return res.status(400).json({ error: 'Day of week and day name are required' });
+  }
+  
+  if (day_of_week < 0 || day_of_week > 6) {
+    return res.status(400).json({ error: 'Day of week must be between 0 and 6' });
+  }
+  
   db.run('INSERT INTO non_working_days (day_of_week, day_name) VALUES (?, ?)', 
     [day_of_week, day_name], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      if (err.message.includes('UNIQUE constraint failed')) {
+        return res.status(400).json({ error: 'This day is already marked as non-working' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
     res.json({ id: this.lastID, day_of_week, day_name });
   });
 });

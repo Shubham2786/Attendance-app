@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { attendanceAPI, subjectsAPI } from '../services/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import jsPDF from 'jspdf';
+import AttendanceCalendar from './AttendanceCalendar';
 
 function AttendanceReport() {
   const [stats, setStats] = useState([]);
@@ -140,6 +141,10 @@ function AttendanceReport() {
             </div>
           );
         })}
+      </div>
+      
+      <div className="mt-4">
+        <AttendanceCalendar />
       </div>
     </div>
   );
