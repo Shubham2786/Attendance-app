@@ -56,6 +56,22 @@ function GradeCalculator() {
   };
 
   const loadCurrentSemester = () => {
+    // First try to get from semester settings
+    const semesterData = localStorage.getItem('semester');
+    if (semesterData) {
+      try {
+        const parsed = JSON.parse(semesterData);
+        if (parsed.current_semester) {
+          const semNum = parseInt(parsed.current_semester.replace('Sem ', ''));
+          setCurrentSemester(semNum);
+          return;
+        }
+      } catch (e) {
+        console.log('Error parsing semester data');
+      }
+    }
+    
+    // Fallback to old method
     const saved = localStorage.getItem('currentSemester');
     if (saved) {
       const semNum = parseInt(saved.replace('Sem ', ''));
@@ -572,12 +588,12 @@ function GradeCalculator() {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder={`Semester (e.g., Sem 1-${currentSemester-1})`}
+                          placeholder={currentSemester > 1 ? `Semester (e.g., Sem 1-${currentSemester-1})` : 'Semester (e.g., Sem 1)'}
                           value={sgpaForm.semester}
                           onChange={(e) => setSgpaForm({...sgpaForm, semester: e.target.value})}
                           required
                         />
-                        <small className="text-muted">Only past semesters (1-{currentSemester-1})</small>
+                        <small className="text-muted">{currentSemester > 1 ? `Only past semesters (1-${currentSemester-1})` : 'Set current semester in Settings first'}</small>
                       </div>
                       <div className="col-md-4">
                         <input

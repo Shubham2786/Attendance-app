@@ -1,17 +1,17 @@
 :root {
-  /* Matte Black & Yellow Theme */
-  --bg-primary: #0A0A0A;
-  --bg-secondary: #1A1A1A;
-  --text-primary: #EDEDED;
-  --text-secondary: #A1A1A1;
-  --border-color: #2E2E2E;
-  --accent-primary: #E6C200;
-  --accent-secondary: #D4B814;
+  /* Matte Dark Theme */
+  --bg-primary: #1b1b1b;        /* Black background */
+  --bg-secondary: #292929;      /* Charcoal cards/surfaces */
+  --text-primary: #ffffff;      /* White text */
+  --text-secondary: #808080;    /* Grey muted text */
+  --border-color: #404040;      /* Low-opacity grey borders */
+  --accent-primary: #ffa31a;    /* Yellow accent */
+  --accent-secondary: #e6921a;  /* Darker yellow for hover */
   --accent-success: #4ADE80;
   --accent-danger: #FF5252;
-  --accent-warning: #E6C200;
-  --card-shadow: 0px 4px 20px rgba(0,0,0,0.8);
-  --hover-shadow: 0px 8px 30px rgba(0,0,0,0.9);
+  --accent-warning: #ffa31a;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -72,7 +72,6 @@ body {
 
 .card:hover {
   box-shadow: var(--hover-shadow);
-  transform: translateY(-2px);
 }
 
 .card-header {
@@ -90,18 +89,32 @@ body {
 }
 
 .btn-primary {
-  background: var(--accent-primary);
-  border: none;
+  background: var(--accent-primary) !important;
+  border: 1px solid var(--accent-primary) !important;
   border-radius: 8px;
   padding: 10px 20px;
   font-weight: 500;
   transition: all 0.2s ease;
-  color: var(--bg-primary);
+  color: var(--bg-primary) !important;
 }
 
 .btn-primary:hover {
-  background: var(--accent-secondary);
-  transform: scale(0.97);
+  background: var(--accent-secondary) !important;
+  border-color: var(--accent-secondary) !important;
+  color: var(--bg-primary) !important;
+  opacity: 0.9;
+}
+
+.btn-outline-primary {
+  background: transparent !important;
+  border: 1px solid var(--accent-primary) !important;
+  color: var(--accent-primary) !important;
+}
+
+.btn-outline-primary:hover {
+  background: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
 }
 
 .btn-success {
@@ -144,16 +157,16 @@ body {
 }
 
 .btn-light {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border: 1px solid var(--text-secondary);
   color: var(--text-primary);
   border-radius: 8px;
   font-weight: 500;
 }
 
 .btn-light:hover {
-  filter: brightness(110%);
-  transform: scale(0.97);
+  border-color: var(--accent-primary);
+  background: var(--bg-secondary);
 }
 
 .progress {
@@ -180,7 +193,7 @@ body {
   background: var(--bg-secondary);
   border-color: var(--accent-primary);
   color: var(--text-primary);
-  box-shadow: 0 0 0 3px rgba(230, 194, 0, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 163, 26, 0.2);
   outline: none;
 }
 
@@ -223,9 +236,7 @@ body {
 }
 
 .class-card:hover {
-  border-color: var(--glass-border);
-  transform: translateY(-3px);
-  background: var(--glass-border);
+  box-shadow: var(--hover-shadow);
 }
 
 .stat-card {
@@ -241,8 +252,7 @@ body {
 }
 
 .stat-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--glass-border);
+  box-shadow: var(--hover-shadow);
 }
 
 .icon {
@@ -262,25 +272,35 @@ body {
 }
 
 .alert {
-  border: none;
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   font-weight: 500;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.alert-info {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
   color: var(--text-primary);
 }
 
 .alert-success {
-  background: var(--accent-success);
-  color: white;
+  background: var(--bg-secondary);
+  border-color: var(--accent-success);
+  color: var(--accent-success);
 }
 
 .alert-warning {
-  background: var(--accent-warning);
-  color: white;
+  background: var(--bg-secondary);
+  border-color: var(--accent-warning);
+  color: var(--accent-warning);
 }
 
 .alert-danger {
-  background: var(--accent-danger);
-  color: white;
+  background: var(--bg-secondary);
+  border-color: var(--accent-danger);
+  color: var(--accent-danger);
 }
 
 .badge {
@@ -304,7 +324,8 @@ body {
 }
 
 .badge.bg-info {
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
+  background: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
 }
 
 .badge.bg-secondary {
@@ -417,23 +438,30 @@ body.light-theme .calendar-day.bg-light {
   color: var(--accent-primary) !important;
 }
 
+.text-info {
+  color: var(--text-secondary) !important;
+}
+
+.border-primary {
+  border-color: var(--accent-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
+}
+
 .navbar-toggler {
-  border: 2px solid var(--accent-primary) !important;
-  padding: 10px 12px !important;
-  border-radius: 8px !important;
-  background: var(--accent-primary) !important;
-  transition: all 0.3s ease !important;
-  min-width: 50px !important;
-  min-height: 44px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  border: 1px solid var(--text-secondary) !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  transition: all 0.2s ease !important;
 }
 
 .navbar-toggler:hover {
-  background: var(--accent-secondary) !important;
-  border-color: var(--accent-secondary) !important;
-  transform: scale(1.05) !important;
+  border-color: var(--accent-primary) !important;
+  background: var(--bg-secondary) !important;
 }
 
 .navbar-toggler:focus {
@@ -442,7 +470,7 @@ body.light-theme .calendar-day.bg-light {
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e") !important;
   width: 24px !important;
   height: 24px !important;
   display: block !important;
@@ -902,8 +930,8 @@ body.light-theme .calendar-day.bg-light {
 }
 
 .calendar-day.bg-info {
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
-  color: white !important;
+  background: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
 }
 
 .calendar-day.bg-light {

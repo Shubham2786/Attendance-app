@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { subjectsAPI } from '../services/api';
-import { courseData, resetAndLoadNewSemester } from '../data/courseData';
+
 import ConfirmModal from './ConfirmModal';
 import ExpandableSection from './ExpandableSection';
 
@@ -29,29 +29,7 @@ function SubjectManager() {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  const resetData = async () => {
-    try {
-      await resetAndLoadNewSemester();
-      
-      // Load mandatory subjects
-      const mandatorySubjects = [...courseData.PCC, ...courseData.ELC];
-      
-      for (const subject of mandatorySubjects) {
-        await subjectsAPI.create({
-          name: subject.name,
-          code: subject.code,
-          type: subject.type,
-          credits: subject.credits,
-          category: subject.code.startsWith('2304391') || subject.code.startsWith('2304396') ? 'ELC' : 'PCC'
-        });
-      }
-      
-      loadSubjects();
-      showNotification('Data reset and new semester subjects loaded successfully!');
-    } catch (error) {
-      showNotification('Error resetting data: ' + error.message, 'error');
-    }
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,9 +93,7 @@ function SubjectManager() {
           <div className="card marks-card">
             <div className="card-header d-flex justify-content-between align-items-center">
               <h5 className="mb-0">📚 Subjects Overview</h5>
-              <button className="btn btn-outline-danger btn-sm" onClick={resetData}>
-                🔄 Reset & Load New Semester
-              </button>
+
             </div>
             <div className="card-body">
               {subjects.length === 0 ? (

@@ -3,6 +3,7 @@ import { subjectsAPI } from '../services/api';
 import ExpandableSection from './ExpandableSection';
 import GradeCalculator from './GradeCalculator';
 
+
 function MarksManager() {
   const [subjects, setSubjects] = useState([]);
   const [semesterMarks, setSemesterMarks] = useState([]);
@@ -68,7 +69,7 @@ function MarksManager() {
     if (subject.type === 'lab') {
       return subject.credits === 1 
         ? { ca: 20, final_practical: 30, total: 50 }
-        : { ca: 35, final_practical: 65, total: 100 };
+        : { ca: 35, final_practical: 40, total: 75 };
     } else {
       return subject.credits === 2
         ? { ia: 15, mid_sem: 20, end_sem: 40, total: 75 }
@@ -77,8 +78,26 @@ function MarksManager() {
   };
 
   const getExamMaxMarks = (subject, examType) => {
+    if (!subject || !examType) return '';
+    
+    console.log('getExamMaxMarks called with:', { subject: subject.name, type: subject.type, credits: subject.credits, examType });
+    
     const maxMarks = getMaxMarks(subject);
-    return maxMarks[examType.toLowerCase().replace(' ', '_')] || 0;
+    console.log('Max marks structure:', maxMarks);
+    
+    // Map exam types to max marks keys
+    const examTypeMap = {
+      'CA': 'ca',
+      'Final Practical': 'final_practical', 
+      'IA': 'ia',
+      'Mid Sem': 'mid_sem',
+      'End Sem': 'end_sem'
+    };
+    
+    const key = examTypeMap[examType];
+    const result = key ? maxMarks[key] : '';
+    console.log('Mapped key:', key, 'Result:', result);
+    return result;
   };
 
   const calculateGrade = (percentage) => {
@@ -294,15 +313,9 @@ function MarksManager() {
                 <div className="card-header">
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="mb-0">📊 Marks Overview</h5>
-                    <div className="d-flex gap-3">
-                      <div className="text-center">
-                        <small className="text-muted">Current SGPA</small>
-                        <div className="h6 text-primary mb-0">{calculateSGPA()}</div>
-                      </div>
-                      <div className="text-center">
-                        <small className="text-muted">Overall CGPA</small>
-                        <div className="h6 text-success mb-0">{calculateCGPA()}</div>
-                      </div>
+                    <div className="text-center">
+                      <small className="text-muted">Current CGPA</small>
+                      <div className="h6 text-success mb-0">{calculateCGPA()}</div>
                     </div>
                   </div>
                 </div>
@@ -402,8 +415,20 @@ function MarksManager() {
                             value={formData.exam_type}
                             onChange={(e) => {
                               const examType = e.target.value;
-                              const subject = subjects.find(s => s.id === parseInt(formData.subject_id));
-                              const maxMarks = subject ? getExamMaxMarks(subject, examType) : '';
+                              const subject = subjects.find(s => s.id == formData.subject_id);
+                              let maxMarks = '';
+                              
+                              if (subject && examType) {
+                                if (subject.type === 'lab') {
+                                  if (examType === 'CA') maxMarks = subject.credits === 1 ? '20' : '35';
+                                  if (examType === 'Final Practical') maxMarks = subject.credits === 1 ? '30' : '40';
+                                } else {
+                                  if (examType === 'IA') maxMarks = subject.credits === 2 ? '15' : '30';
+                                  if (examType === 'Mid Sem') maxMarks = '20';
+                                  if (examType === 'End Sem') maxMarks = subject.credits === 2 ? '40' : '50';
+                                }
+                              }
+                              
                               setFormData({...formData, exam_type: examType, total_marks: maxMarks});
                             }}
                             required

@@ -54,33 +54,16 @@ function App() {
           </button>
           
           <button 
-            className="navbar-toggler d-lg-none"
+            className="navbar-toggler"
             type="button"
             onClick={() => {
               console.log('Hamburger clicked, current state:', isNavOpen);
               setIsNavOpen(!isNavOpen);
             }}
             aria-label="Toggle navigation"
-            style={{
-              border: '2px solid #E6C200',
-              padding: '10px 12px',
-              borderRadius: '8px',
-              background: '#E6C200',
-              minWidth: '50px',
-              minHeight: '44px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
+            style={{ display: window.innerWidth <= 991 ? 'block' : 'none' }}
           >
-            <span 
-              style={{
-                backgroundImage: "url(\"data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e\")",
-                width: '24px',
-                height: '24px',
-                display: 'block'
-              }}
-            ></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           
           <div className="navbar-nav ms-auto d-none d-lg-flex align-items-center">
@@ -104,24 +87,26 @@ function App() {
         style={{
           position: 'fixed',
           top: 0,
-          right: isNavOpen ? 0 : '-100%',
-          width: '80%',
-          maxWidth: '300px',
+          right: isNavOpen ? '0px' : '-400px',
+          width: '300px',
           height: '100vh',
-          background: '#1A1A1A',
-          borderLeft: '3px solid #E6C200',
+          background: '#292929',
+          borderLeft: '2px solid #ffa31a',
           transition: 'right 0.3s ease',
-          zIndex: 1050,
-          boxShadow: '-2px 0 20px rgba(0,0,0,0.8)',
-          overflowY: 'auto'
+          zIndex: 9999,
+          boxShadow: '-5px 0 20px rgba(0,0,0,0.8)',
+          overflowY: 'auto',
+          display: 'block',
+          visibility: 'visible'
         }}
       >
         <div 
           style={{
             padding: '1rem',
             height: '100%',
-            display: 'flex',
-            flexDirection: 'column'
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1
           }}
         >
           <div 
@@ -134,15 +119,15 @@ function App() {
               marginBottom: '1rem'
             }}
           >
-            <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#E6C200' }}>▣ ClassConnect</span>
+            <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>▣ ClassConnect</span>
             <button 
               onClick={() => setIsNavOpen(false)}
               style={{
-                background: '#E6C200',
-                border: '2px solid #E6C200',
+                background: '#ffa31a',
+                border: '1px solid #ffa31a',
                 borderRadius: '50%',
                 fontSize: '1.2rem',
-                color: '#0A0A0A',
+                color: '#1b1b1b',
                 cursor: 'pointer',
                 padding: 0,
                 width: '35px',
@@ -158,11 +143,10 @@ function App() {
           </div>
           <div 
             style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem',
-              paddingTop: '1rem'
+              display: 'block',
+              paddingTop: '1rem',
+              visibility: 'visible',
+              opacity: 1
             }}
           >
             {tabs.map((tab, index) => (
@@ -176,10 +160,10 @@ function App() {
                   display: 'block',
                   width: '100%',
                   padding: '1rem 1.25rem',
-                  background: activeTab === tab.id ? '#E6C200' : '#0A0A0A',
-                  border: '2px solid #E6C200',
-                  borderRadius: '0.75rem',
-                  color: activeTab === tab.id ? '#0A0A0A' : '#E6C200',
+                  background: activeTab === tab.id ? '#ffa31a' : '#292929',
+                  border: '1px solid #808080',
+                  borderRadius: '0.5rem',
+                  color: activeTab === tab.id ? '#1b1b1b' : '#ffffff',
                   textAlign: 'left',
                   fontSize: '1rem',
                   fontWeight: 600,
