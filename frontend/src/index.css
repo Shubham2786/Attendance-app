@@ -566,89 +566,9 @@ body.light-theme .calendar-day.bg-light {
 }
 
 /* Mobile menu styles */
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 280px;
-  height: 100vh;
-  background: var(--bg-secondary);
-  border-left: 1px solid var(--border-color);
-  transition: right 0.3s ease;
-  z-index: 1000;
-  box-shadow: var(--card-shadow);
-}
 
-.mobile-menu.open {
-  right: 0;
-}
 
-.mobile-menu-content {
-  padding: 1rem;
-}
 
-.mobile-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 1rem;
-}
-
-.mobile-brand {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--text-primary);
-}
-
-.btn-close {
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.mobile-nav-item {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  background: transparent;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  color: var(--text-primary);
-  text-align: left;
-  transition: all 0.3s ease;
-  animation: slideInRight 0.3s ease forwards;
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.mobile-nav-item:hover,
-.mobile-nav-item.active {
-  background: var(--accent-primary);
-  color: white;
-  border-color: transparent;
-}
-
-.mobile-menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.5);
-  z-index: 999;
-}
-
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
 /* Calendar Styles */
 .calendar-container {

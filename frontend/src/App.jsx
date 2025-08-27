@@ -83,7 +83,7 @@ function App() {
           <div className="mobile-menu-header">
             <span className="mobile-brand">▣ ClassConnect</span>
             <button 
-              className="btn-close"
+              className="mobile-btn-close"
               onClick={() => setIsNavOpen(false)}
             >
               ✕
