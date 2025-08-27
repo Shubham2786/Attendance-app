@@ -19,7 +19,8 @@ function Dashboard() {
       // Check which subjects already have attendance marked today
       const today = new Date().toISOString().split('T')[0];
       const attendanceResponse = await attendanceAPI.getAll();
-      const todayAttendance = attendanceResponse.data.filter(att => att.date === today);
+      const attendanceData = attendanceResponse.data?.data || attendanceResponse.data || [];
+      const todayAttendance = Array.isArray(attendanceData) ? attendanceData.filter(att => att.date === today) : [];
       const markedSubjects = new Set(todayAttendance.map(att => att.subject_id));
       setMarkedAttendance(markedSubjects);
     } catch (error) {
