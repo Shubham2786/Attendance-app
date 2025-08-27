@@ -418,27 +418,34 @@ body.light-theme .calendar-day.bg-light {
 }
 
 .navbar-toggler {
-  border: 1px solid var(--accent-primary);
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: var(--bg-primary);
-  transition: all 0.3s ease;
+  border: 2px solid var(--accent-primary) !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  background: var(--accent-primary) !important;
+  transition: all 0.3s ease !important;
+  min-width: 50px !important;
+  min-height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .navbar-toggler:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
+  background: var(--accent-secondary) !important;
+  border-color: var(--accent-secondary) !important;
+  transform: scale(1.05) !important;
 }
 
 .navbar-toggler:focus {
-  box-shadow: 0 0 0 3px rgba(230, 194, 0, 0.3);
-  outline: none;
+  box-shadow: 0 0 0 3px rgba(230, 194, 0, 0.5) !important;
+  outline: none !important;
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23E6C200' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e");
-  width: 20px;
-  height: 20px;
+  background-image: url("data:image/svg+xml;charset=utf8,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='m4 7h22m-22 6h22m-22 6h22'/%3e%3c/svg%3e") !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
 }
 
 /* Notification System */
@@ -1066,7 +1073,15 @@ body.light-theme .calendar-day.bg-light {
   }
   
   .navbar-toggler {
-    padding: 0.25rem 0.5rem;
+    padding: 12px 14px !important;
+    min-width: 52px !important;
+    min-height: 48px !important;
+    border-width: 3px !important;
+  }
+  
+  .navbar-toggler-icon {
+    width: 28px !important;
+    height: 28px !important;
   }
   
   .dashboard-header h1 {
@@ -1111,8 +1126,25 @@ body.light-theme .calendar-day.bg-light {
   }
   
   .navbar-toggler {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    padding: 12px !important;
+  }
+  
+  .navbar-toggler-icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+}
+
+/* Force visibility on mobile */
+@media (max-width: 991.98px) {
+  .navbar-toggler {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1000 !important;
   }
 }
 

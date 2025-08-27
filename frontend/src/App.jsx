@@ -53,16 +53,14 @@ function App() {
             {!isOnline && <span className="badge bg-warning ms-2">📱 Offline</span>}
           </button>
           
-          <div className="d-flex align-items-center d-lg-none">
-
-            <button 
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-          </div>
+          <button 
+            className="navbar-toggler d-lg-none"
+            type="button"
+            onClick={() => setIsNavOpen(!isNavOpen)}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
           
           <div className="navbar-nav ms-auto d-none d-lg-flex align-items-center">
             {tabs.map(tab => (
