@@ -1,0 +1,89 @@
+:root {
+  --bg-primary: #0f0f23;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #16213e;
+  --accent-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --accent-success: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
+  --accent-warning: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+  --accent-danger: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b2b2b2;
+  --text-muted: #6c757d;
+  --border-color: #2d3748;
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  --hover-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  --glass-bg: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+}
+
+body.light-theme {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-muted: #adb5bd;
+  --border-color: #dee2e6;
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  --hover-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  --glass-bg: rgba(0,0,0,0.02);
+  --glass-border: rgba(0,0,0,0.05);
+}
+
+body {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+.navbar {
+  background: var(--bg-tertiary) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--card-shadow);
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--accent-primary);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.form-control, .form-select {
+  background: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.badge.bg-primary {
+  background: var(--accent-primary) !important;
+}
+
+.badge.bg-success {
+  background: var(--accent-success) !important;
+}
+
+.badge.bg-warning {
+  background: var(--accent-warning) !important;
+}
+
+.badge.bg-danger {
+  background: var(--accent-danger) !important;
+}
